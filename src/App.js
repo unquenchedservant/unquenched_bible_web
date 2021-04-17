@@ -113,7 +113,7 @@ export default function PermanentDrawerLeft() {
 }
 
 function App() {
-  return <PermanentDrawerLeft>;
+  return <PermanentDrawerLeft />;
 }
 
 export default App;
