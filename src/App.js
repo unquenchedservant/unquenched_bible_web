@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  BrowserRouter,
+  Switch,
+  Route, 
+  Link
+} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,8 +16,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import SettingsIcon from '@material-ui/icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 const drawerWidth = 240;
 
@@ -22,13 +29,6 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
   drawerContainer: {
     overflow: 'auto',
   },
@@ -36,53 +36,77 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth
+  },
 }));
 
 function getMonth(numeralMonth) {
   let month = "";
   switch(numeralMonth){
-    case 1:
+    case "1":
       month = "January";
       break;
-    case 2:
+    case "2":
       month = "February";
       break;
-    case 3:
+    case "3":
       month = "March";
       break;
-    case 4:
+    case "4":
       month = "April";
       break;
-    case 5:
+    case "5":
       month = "May";
       break;
-    case 6:
+    case "6":
       month = "June";
       break;
-    case 7:
+    case "7":
       month = "July";
       break;
-    case 8:
+    case "8":
       month = "August";
       break;
-    case 9:
+    case "9":
       month = "September";
       break;
-    case 10:
+    case "10":
       month = "October";
       break;
-    case 11:
+    case "11":
       month = "November";
       break;
-    case 12:
+    case "12":
       month = "December";
-      break;
   }
   return month;
 }
 function ClippedDrawer() {
   const classes = useStyles();
   let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
+
+  const drawer = (
+    <div className={classes.drawerContainer}>
+          <List>
+            {["Home", "Statistics", "Settings"].map((text, index) => (
+              <ListItem key={text} component={Link} to={ text==="Home" ? "/" : "/" + text.toLowerCase()}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <HomeIcon /> : <EqualizerIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+            </List>
+          </div>
+    );
 
   return (
     <div className={classes.root}>
@@ -94,51 +118,30 @@ function ClippedDrawer() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {['Home', 'Statistics', 'Settings'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      </Drawer>
-      <main className={classes.content}>
-        <Toolbar />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main>
+      <BrowserRouter>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            open
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <Toolbar />
+            {drawer}
+          </Drawer>
+        </nav>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+            <Switch>
+              <Route exact path="/" render={ () => <div>Home</div>} />
+              <Route path="/home" render={ () => <div>Home</div>} />
+              <Route path="/statistics" render={ () => <div>Statistics</div>} />
+              <Route path="/settings" render={ () => <div>Settings</div>} />
+            </Switch>
+          </main>
+      </BrowserRouter>
     </div>
   );
 }
