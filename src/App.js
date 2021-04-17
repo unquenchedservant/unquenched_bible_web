@@ -47,7 +47,7 @@ function ClippedDrawer() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Date()
+           new Date()
           </Typography>
         </Toolbar>
       </AppBar>
