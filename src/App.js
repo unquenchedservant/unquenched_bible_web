@@ -38,6 +38,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getMonth(numeralMonth) {
+  switch(numeralMonth){
+    case 1:
+      month = "January";
+      break;
+    case 2:
+      month = "February";
+      break;
+    case 3:
+      month = "March";
+      break;
+    case 4:
+      month = "April";
+      break;
+    case 5:
+      month = "May";
+      break;
+    case 6:
+      month = "June";
+      break;
+    case 7:
+      month = "July";
+      break;
+    case 8:
+      month = "August";
+      break;
+    case 9:
+      month = "September";
+      break;
+    case 10:
+      month = "October";
+      break;
+    case 11:
+      month = "November";
+      break;
+    case 12:
+      month = "December";
+      break;
+  }
+  return month;
+}
 function ClippedDrawer() {
   const classes = useStyles();
   let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
@@ -48,7 +89,7 @@ function ClippedDrawer() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            { month } { date }
+            { getMonth(month) } { date }
           </Typography>
         </Toolbar>
       </AppBar>
