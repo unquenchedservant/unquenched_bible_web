@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ClippedDrawer() {
   const classes = useStyles();
+  let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
 
   return (
     <div className={classes.root}>
@@ -47,7 +48,7 @@ function ClippedDrawer() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-           new Date()
+            { month } { date }
           </Typography>
         </Toolbar>
       </AppBar>
