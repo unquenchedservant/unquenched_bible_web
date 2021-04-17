@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PermanentDrawerLeft() {
+function PermanentDrawerLeft() {
   const classes = useStyles();
 
   return (
