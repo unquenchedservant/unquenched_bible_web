@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getMonth(numeralMonth) {
+  let month = "";
   switch(numeralMonth){
     case 1:
       month = "January";
