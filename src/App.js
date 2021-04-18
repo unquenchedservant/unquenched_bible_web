@@ -24,6 +24,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 
+import Home from "./pages/home";
+import Settings from "./pages/settings";
+import Statistics from "./pages/statistics";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -159,20 +163,23 @@ function ClippedDrawer() {
         <main className={classes.content}>
           <div className={classes.toolbar} />
             <Switch>
-              <Route exact path="/" render={ () => <div>Home</div>} />
-              <Route path="/home" render={ () => <div>Home</div>} />
-              <Route path="/statistics" render={ () => <div>Statistics</div>} />
-              <Route path="/settings" render={ () => <div>Settings</div>} />
+              <Route exact path="/" component={() => <Home />} />
+              <Route path="/home" component={ () => <Home />} />
+              <Route path="/statistics" component={ () => <Statistics />} />
+              <Route path="/settings" component={ () => <Settings />} />
             </Switch>
           </main>
-      </BrowserRouter>
-    </div>
+      </div>
+      
   );
 }
 
 
-function App() {
-  return <ClippedDrawer />;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ClippedDrawer />
+    </BrowserRouter>
+  );
 }
 
-export default App;
