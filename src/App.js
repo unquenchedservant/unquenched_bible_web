@@ -1,8 +1,12 @@
 import React from 'react';
+import ReactDOM from "react-dom";
+
 import {
   BrowserRouter,
   Switch,
-  Route, 
+  Route,
+  useLocation,
+  useParams, 
   Link
 } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,8 +93,28 @@ function getMonth(numeralMonth) {
   }
   return month;
 }
+
+
+
+const GetTitle = (pathname) => {
+  let title = ""
+  switch(pathname){
+    case "/":
+      let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
+      title = getMonth(month) + " " + date;
+      break;
+    case "/statistics":
+      title = "Statistics";
+      break;
+    case "/settings":
+      title = "Settings";
+      break;
+  }
+  return title;
+};
 function ClippedDrawer() {
   const classes = useStyles();
+  const location = useLocation();
   let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
 
   const drawer = (
@@ -109,16 +133,16 @@ function ClippedDrawer() {
     );
 
   return (
+    
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            { getMonth(month) } { date }
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <BrowserRouter>
+      <Toolbar>
+        <Typography variant="h6" noWrap>
+          { GetTitle(location.pathname) }
+        </Typography>
+      </Toolbar>
+    </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
           <Drawer
             className={classes.drawer}
