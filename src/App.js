@@ -1,14 +1,13 @@
 import React from 'react';
-import ReactDOM from "react-dom";
 
 import {
   BrowserRouter,
   Switch,
   Route,
   useLocation,
-  useParams, 
   Link
 } from "react-router-dom";
+import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,7 +15,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -27,6 +25,8 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import Home from "./pages/home";
 import Settings from "./pages/settings";
 import Statistics from "./pages/statistics";
+
+
 
 const drawerWidth = 240;
 
@@ -94,6 +94,9 @@ function getMonth(numeralMonth) {
       break;
     case "12":
       month = "December";
+      break;
+    default:
+      month="ERROR";
   }
   return month;
 }
@@ -104,7 +107,7 @@ const GetTitle = (pathname) => {
   let title = ""
   switch(pathname){
     case "/":
-      let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
+      let [month, date ] = new Date().toLocaleDateString("en-US").split("/");
       title = getMonth(month) + " " + date;
       break;
     case "/statistics":
@@ -113,13 +116,34 @@ const GetTitle = (pathname) => {
     case "/settings":
       title = "Settings";
       break;
+    default:
+      title="ERROR";
+      break;
   }
   return title;
 };
+
+const GetIcon = (pathname) => {
+  let icon="";
+  switch(pathname){
+    case "Home":
+      icon = <HomeIcon />
+      break;
+    case "Settings":
+      icon = <SettingsIcon />
+      break;
+    case "Statistics":
+      icon = <EqualizerIcon />
+      break;
+    default:
+      icon= <HomeIcon />
+      break;
+  }
+  return icon;
+}
 function ClippedDrawer() {
   const classes = useStyles();
   const location = useLocation();
-  let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
 
   const drawer = (
     <div className={classes.drawerContainer}>
@@ -127,7 +151,7 @@ function ClippedDrawer() {
             {["Home", "Statistics", "Settings"].map((text, index) => (
               <ListItem key={text} component={Link} to={ text==="Home" ? "/" : "/" + text.toLowerCase()}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <HomeIcon /> : <EqualizerIcon />}
+                  { GetIcon(text) }
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
@@ -176,7 +200,7 @@ function ClippedDrawer() {
 
 
 export default function App() {
-  return (
+  return(
     <BrowserRouter>
       <ClippedDrawer />
     </BrowserRouter>
